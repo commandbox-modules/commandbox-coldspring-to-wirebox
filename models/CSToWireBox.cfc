@@ -31,7 +31,7 @@ component singleton {
 
 			// If no beans
 			if ( NOT arrayLen( beans ) ) {
-				results.errorMessages = "No bean definitions found";
+				results.errorMessages = "No bean definitions found, nothing to do!";
 				return results;
 			}
 
@@ -57,61 +57,64 @@ component singleton {
 		var cr    = chr( 13 ) & chr( 10 );
 		var tab   = repeatString( chr( 9 ), 3 );
 		var beans = arguments.beanData;
-		var x     = 1;
-		var j     = 1;
 
-		for ( x = 1; x lte arrayLen( beans ); x++ ) {
-			buf.append( "#repeatString( chr( 9 ), 2 )#map(""#beans[ x ].beanName#"")" );
+		for ( var x = 1; x lte arrayLen( beans ); x++ ) {
+			buf.append( "#repeatString( chr( 9 ), 2 )#map( ""#beans[ x ].beanName#"" )" );
 			// class?
 			if ( len( beans[ x ].fullClassPath ) ) {
-				buf.append( ".to(""#beans[ x ].fullClassPath#"")" );
+				buf.append( ".to( ""#beans[ x ].fullClassPath#"" )" );
 				// constructor dependencies
 				for ( j = 1; j lte arrayLen( beans[ x ].constructorProperties ); j++ ) {
-					buf.append( "#cr##tab#.initArg(name=""#beans[ x ].constructorProperties[ j ].name#""" );
+					buf.append( "#cr##tab#.initArg( name=""#beans[ x ].constructorProperties[ j ].name#""" );
 					if ( len( beans[ x ].constructorProperties[ j ].ref ) ) {
-						buf.append( ",ref=""#beans[ x ].constructorProperties[ j ].ref#""" );
+						buf.append( ", ref=""#beans[ x ].constructorProperties[ j ].ref#""" );
 					} else {
-						buf.append( ",value=""#beans[ x ].constructorProperties[ j ].value#""" );
+						buf.append( ", value=""#beans[ x ].constructorProperties[ j ].value#""" );
 					}
 					buf.append( ")" );
 				}
 				// setter dependencies
-				for ( j = 1; j lte arrayLen( beans[ x ].setterProperties ); j++ ) {
-					buf.append( "#cr##tab#.setter(name=""#beans[ x ].setterProperties[ j ].name#""" );
+				for ( var j = 1; j lte arrayLen( beans[ x ].setterProperties ); j++ ) {
+					buf.append( "#cr##tab#.setter( name=""#beans[ x ].setterProperties[ j ].name#""" );
 					if ( len( beans[ x ].setterProperties[ j ].ref ) ) {
-						buf.append( ",ref=""#beans[ x ].setterProperties[ j ].ref#""" );
+						buf.append( ", ref=""#beans[ x ].setterProperties[ j ].ref#""" );
 					} else {
-						buf.append( ",value=""#beans[ x ].setterProperties[ j ].value#""" );
+						buf.append( ", value=""#beans[ x ].setterProperties[ j ].value#""" );
 					}
 					buf.append( ")" );
 				}
 			}
+
 			// factory methods?
 			if ( len( beans[ x ].factoryBean ) ) {
-				buf.append( ".toFactoryMethod(factory=""#beans[ x ].factoryBean#"",method=""#beans[ x ].factoryMethod#"")" );
+				buf.append( ".toFactoryMethod( factory=""#beans[ x ].factoryBean#"", method=""#beans[ x ].factoryMethod#"")" );
 				// dependencies
 				for ( j = 1; j lte arrayLen( beans[ x ].constructorProperties ); j++ ) {
-					buf.append( "#cr##tab#.methodArg(name=""#beans[ x ].constructorProperties[ j ].name#""" );
+					buf.append( "#cr##tab#.methodArg( name=""#beans[ x ].constructorProperties[ j ].name#""" );
 					if ( len( beans[ x ].constructorProperties[ j ].ref ) ) {
-						buf.append( ",ref=""#beans[ x ].constructorProperties[ j ].ref#""" );
+						buf.append( ", ref = ""#beans[ x ].constructorProperties[ j ].ref#""" );
 					} else {
-						buf.append( ",value=""#beans[ x ].constructorProperties[ j ].value#""" );
+						buf.append( ", value = ""#beans[ x ].constructorProperties[ j ].value#""" );
 					}
 					buf.append( ")" );
 				}
 			}
+
 			// singleton?
 			if ( beans[ x ].singleton ) {
 				buf.append( "#cr##tab#.asSingleton()" );
 			}
+
 			// Autowire?
 			if ( NOT beans[ x ].autowire ) {
 				buf.append( "#cr##tab#.noAutowire()" );
 			}
+
 			// Constructor?
 			if ( len( beans[ x ].initMethod ) ) {
-				buf.append( "#cr##tab#.constructor(""#beans[ x ].initMethod#"")" );
+				buf.append( "#cr##tab#.constructor( ""#beans[ x ].initMethod#"" )" );
 			}
+
 			// Lazy?
 			if ( NOT beans[ x ].lazy ) {
 				buf.append( "#cr##tab#.asEagerInit()" );
@@ -133,13 +136,11 @@ component singleton {
 	 * @throws InvalidBeanIdNameException - When the bean has no id or name
 	 */
 	function translateBean( required bean, required beanData ){
-		var beanStruct         = structNew();
-		var key                = "";
 		var beanAttributeValue = 0;
 		var errormsg           = "";
 
 		// default bean
-		beanStruct = {
+		var beanStruct = {
 			factoryBean           : "",
 			factoryMethod         : "",
 			singleton             : true,
@@ -153,7 +154,7 @@ component singleton {
 		};
 
 		// loop over bean tag attributes and create beanStruct keys
-		for ( key in bean.XmlAttributes ) {
+		for ( var key in bean.XmlAttributes ) {
 			// Get Attribute Value
 			beanAttributeValue = trim( bean.XMLAttributes[ key ] );
 			// Set Values
@@ -223,20 +224,16 @@ component singleton {
 		required childTagName,
 		required beanData
 	){
-		var children = "";
-		var entries  = "";
-		var hashMap  = "";
-		var i        = 1;
-		var j        = 1;
-		var data     = [];
+		var entries = "";
+		var data    = [];
 
 		// find all constructor properties and dependencies
-		children = xmlSearch(
+		var children = xmlSearch(
 			arguments.bean,
 			arguments.childTagName
 		);
 		// Loop Over Children
-		for ( i = 1; i lte arrayLen( children ); i++ ) {
+		for ( var i = 1; i lte arrayLen( children ); i++ ) {
 			data[ i ] = {
 				name  : trim( children[ i ].XmlAttributes[ "name" ] ),
 				value : "",
@@ -254,8 +251,8 @@ component singleton {
 					xmlParse( toString( children[ i ] ) ),
 					"//map/entry"
 				);
-				hashMap = structNew();
-				for ( j = 1; j lte arrayLen( entries ); j++ ) {
+				var hashMap = structNew();
+				for ( var j = 1; j lte arrayLen( entries ); j++ ) {
 					if ( structKeyExists( entries[ j ], "value" ) ) {
 						hashMap[ entries[ j ].XmlAttributes[ "key" ] ] = entries[ j ].value.XmlText;
 					}

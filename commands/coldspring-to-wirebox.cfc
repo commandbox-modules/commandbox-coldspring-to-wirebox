@@ -50,7 +50,6 @@ component {
 		);
 
 		variables.print
-			.line()
 			.greenBoldLine( "√ Conversion Finalized." )
 			.greenLine( "√ WireBox Binder Created: #arguments.binderFile#" )
 			.toConsole();

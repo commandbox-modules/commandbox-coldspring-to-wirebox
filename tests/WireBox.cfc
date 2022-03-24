@@ -36,11 +36,11 @@ component extends="coldbox.system.ioc.config.Binder" {
 		map("UserManager").to("common.ourdomain.security.UserManager")
 			.asSingleton()
 			.noAutowire();
-		map("anonBean:3C1D8991A4").toFactoryMethod(factory="EnvironmentService",method="getProductionDSN")
+		map("anonBean:48E75E5C96").toFactoryMethod(factory="EnvironmentService",method="getProductionDSN")
 			.asSingleton()
 			.noAutowire();
 		map("UserManager").to("common.ourdomain.security.UserManager")
-			.initArg(name="productionDSN",ref="anonBean:3C1D8991A4")
+			.initArg(name="productionDSN",ref="anonBean:48E75E5C96")
 			.initArg(name="PaymentService",ref="PaymentService")
 			.asSingleton()
 			.noAutowire();
