@@ -1,17 +1,17 @@
 {
-    "name":"@MODULE_NAME@",
+    "name":"CommandBox ColdSpring XML to WireBox DSL",
     "version":"1.0.0",
-    "location":"https://downloads.ortussolutions.com/ortussolutions/commandbox-modules/@MODULE_SLUG@/@build.version@/@MODULE_SLUG@-@build.version@.zip",
-    "slug":"@MODULE_SLUG@",
+    "location":"https://downloads.ortussolutions.com/ortussolutions/commandbox-modules/commandbox-coldspring-to-wirebox/@build.version@/commandbox-coldspring-to-wirebox-@build.version@.zip",
+    "slug":"commandbox-coldspring-to-wirebox",
     "author":"Ortus Solutions, Corp",
-    "homepage":"https://www.forgebox.io/view/@MODULE_SLUG@",
+    "homepage":"https://www.forgebox.io/view/commandbox-coldspring-to-wirebox",
     "documentation":"https://github.com/commandbox-modules/wiki",
     "repository":{
         "type":"git",
-        "url":"https://github.com/commandbox-modules/@MODULE_SLUG@"
+        "url":"https://github.com/commandbox-modules/commandbox-coldspring-to-wirebox"
     },
-    "bugs":"https://github.com/commandbox-modules/@MODULE_SLUG@/issues",
-    "shortDescription":"@module_description@",
+    "bugs":"https://github.com/commandbox-modules/commandbox-coldspring-to-wirebox/issues",
+    "shortDescription":"This module will convert a ColdSpring XML to WireBox DSL",
     "type":"commandbox-modules",
     "keywords": [],
     "license":[
@@ -33,6 +33,7 @@
 	"ignore":[
         "**/.*",
         "test-harness",
+		"tests",
 		"/server*.json"
     ],
     "scripts":{
@@ -40,9 +41,9 @@
 		"build:module":"task run taskFile=build/Build.cfc :projectName=`package show slug` :version=`package show version`",
 		"runTests" : "task run taskFile=build/Build.cfc target=runTests :projectName=`package show slug` :version=`package show version`",
 		"setupTemplate": "task run taskFile=build/SetupTemplate.cfc",
-        "format:check":"cfformat check commands,build,ModuleConfig.cfc",
-        "format:watch":"cfformat watch commands,build,ModuleConfig.cfc",
-        "format":"cfformat run commands,build,ModuleConfig.cfc --overwrite",
+        "format:check":"cfformat check commands,models,build,ModuleConfig.cfc",
+        "format:watch":"cfformat watch commands,models,build,ModuleConfig.cfc",
+        "format":"cfformat run commands,models,build,ModuleConfig.cfc --overwrite",
         "release":"recipe build/release.boxr"
     }
 }

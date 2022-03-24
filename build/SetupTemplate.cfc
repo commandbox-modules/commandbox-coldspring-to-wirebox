@@ -32,7 +32,7 @@ component {
 		command( "tokenReplace" )
 			.params(
 				path        = "/#variables.cwd#/**",
-				token       = "@MODULE_NAME@",
+				token       = "CommandBox ColdSpring XML to WireBox DSL",
 				replacement = moduleName
 			)
 			.run();
@@ -40,7 +40,7 @@ component {
 		command( "tokenReplace" )
 			.params(
 				path        = "/#variables.cwd#/**",
-				token       = "@MODULE_SLUG@",
+				token       = "commandbox-coldspring-to-wirebox",
 				replacement = moduleSlug
 			)
 			.run();
@@ -48,7 +48,7 @@ component {
 		command( "tokenReplace" )
 			.params(
 				path        = "/#variables.cwd#/**",
-				token       = "@MODULE_DESCRIPTION@",
+				token       = "This module will convert a ColdSpring XML to WireBox DSL",
 				replacement = moduleDescription
 			)
 			.run();
