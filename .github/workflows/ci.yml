@@ -55,6 +55,7 @@ jobs:
           # Create the CommandBox modules folder, for some reason it is not created
           mkdir -p ~/.CommandBox/cfml/modules
           # Build Project with Tests Included
+          box link --force
           box task run taskfile=build/Build :version=${{ env.VERSION }} :projectName=${{ env.MODULE_ID }} :buildID=${{ github.run_number }} :branch=${{ env.BRANCH }}
 
       - name: Failure Logs
