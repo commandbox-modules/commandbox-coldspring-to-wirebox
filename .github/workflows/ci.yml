@@ -1,4 +1,4 @@
-name: @module_name@ CI
+name: CommandBox ColdSpring XML to WireBox DSL CI
 
 # Only on Development we build snapshots
 on:
@@ -8,7 +8,7 @@ on:
       - master
 
 env:
-  MODULE_ID: @MODULE_SLUG@
+  MODULE_ID: commandbox-coldspring-to-wirebox
 
 jobs:
   #############################################

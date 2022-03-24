@@ -37,7 +37,7 @@ component {
 		} );
 
 		// Create Project Dependency Mappings
-		fileSystemUtil.createMapping( "@module_name@", variables.cwd );
+		fileSystemUtil.createMapping( "CommandBox ColdSpring XML to WireBox DSL", variables.cwd );
 
 		return this;
 	}
@@ -222,7 +222,7 @@ component {
 			.params(
 				"source"                = "commands",
 				"excludes"              = "",
-				"mapping"               = "@module_name@",
+				"mapping"               = "CommandBox ColdSpring XML to WireBox DSL",
 				"strategy-projectTitle" = "#arguments.projectName# v#arguments.version#",
 				"strategy-outputDir"    = arguments.outputDir
 			)

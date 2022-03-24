@@ -2,16 +2,15 @@
  * Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
  * www.ortussolutions.com
  * ---
- * @author
+ * @author Luis Majano
  */
 component {
 
-	this.cfmapping      = "@module_slug@";
-	this.modelNamespace = "@module_slug@";
+	this.cfmapping      = "commandbox-coldspring-to-wirebox";
+	this.modelNamespace = "commandbox-coldspring-to-wirebox";
 
 	function configure(){
 		settings = {}
-
 		interceptors = []
 	}
 
