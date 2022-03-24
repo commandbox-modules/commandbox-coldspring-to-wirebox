@@ -8,7 +8,7 @@ component {
 	 * Run my test suites
 	 */
 	function run(){
-		command( "coldspring-to-wirebox tests/coldspring.xml.cfm tests/WireBox.cfc" ).run( returnOutput: true );
+		command( "coldspring-to-wirebox tests/coldspring.xml.cfm" ).run( returnOutput: true );
 	}
 
 }
