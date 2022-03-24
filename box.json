@@ -1,0 +1,48 @@
+{
+    "name":"@MODULE_NAME@",
+    "version":"1.0.0",
+    "location":"https://downloads.ortussolutions.com/ortussolutions/commandbox-modules/@MODULE_SLUG@/@build.version@/@MODULE_SLUG@-@build.version@.zip",
+    "slug":"@MODULE_SLUG@",
+    "author":"Ortus Solutions, Corp",
+    "homepage":"https://www.forgebox.io/view/@MODULE_SLUG@",
+    "documentation":"https://github.com/commandbox-modules/wiki",
+    "repository":{
+        "type":"git",
+        "url":"https://github.com/commandbox-modules/@MODULE_SLUG@"
+    },
+    "bugs":"https://github.com/commandbox-modules/@MODULE_SLUG@/issues",
+    "shortDescription":"@module_description@",
+    "type":"commandbox-modules",
+    "keywords": [],
+    "license":[
+        {
+            "type":"Apache2",
+            "url":"http://www.apache.org/licenses/LICENSE-2.0"
+        }
+    ],
+    "contributors":[
+    ],
+	"devDependencies":{
+		"commandbox-cfformat":"*",
+        "commandbox-docbox":"*"
+    },
+    "dependencies":{
+    },
+    "installPaths":{
+    },
+	"ignore":[
+        "**/.*",
+        "test-harness",
+		"/server*.json"
+    ],
+    "scripts":{
+		"build:docs":"task run taskFile=build/Build.cfc target=docs :projectName=`package show slug` :version=`package show version`",
+		"build:module":"task run taskFile=build/Build.cfc :projectName=`package show slug` :version=`package show version`",
+		"runTests" : "task run taskFile=build/Build.cfc target=runTests :projectName=`package show slug` :version=`package show version`",
+		"setupTemplate": "task run taskFile=build/SetupTemplate.cfc",
+        "format:check":"cfformat check commands,build,ModuleConfig.cfc",
+        "format:watch":"cfformat watch commands,build,ModuleConfig.cfc",
+        "format":"cfformat run commands,build,ModuleConfig.cfc --overwrite",
+        "release":"recipe build/release.boxr"
+    }
+}

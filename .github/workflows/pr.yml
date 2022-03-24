@@ -1,0 +1,60 @@
+name: Pull Requests
+
+on:
+  push:
+    branches-ignore:
+      - "main"
+      - "master"
+      - "development"
+  pull_request:
+    branches:
+      - development
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: "adopt"
+          java-version: "11"
+
+      - name: Setup CommandBox
+        uses: Ortus-Solutions/setup-commandbox@main
+
+      - name: Install Dependencies
+        run: |
+          box install
+
+      - name: Run Tests
+        run: |
+          # Create the CommandBox modules folder, for some reason it is not created
+          mkdir -p ~/.CommandBox/cfml/modules
+          # Test away
+          box run-script runTests
+
+      - name: Failure Logs
+        if: failure()
+        run: cat `box system-log`
+
+  # Format PR
+  format:
+    name: Format
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - uses: Ortus-Solutions/commandbox-action@v1.0.2
+        with:
+          cmd: run-script format
+
+      - name: Commit Format Changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Apply cfformat changes
