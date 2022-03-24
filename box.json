@@ -1,6 +1,6 @@
 {
     "name":"CommandBox ColdSpring XML to WireBox DSL",
-    "version":"1.0.0",
+    "version":"1.1.0",
     "location":"https://downloads.ortussolutions.com/ortussolutions/commandbox-modules/commandbox-coldspring-to-wirebox/@build.version@/commandbox-coldspring-to-wirebox-@build.version@.zip",
     "slug":"commandbox-coldspring-to-wirebox",
     "author":"Ortus Solutions, Corp",
@@ -13,34 +13,31 @@
     "bugs":"https://github.com/commandbox-modules/commandbox-coldspring-to-wirebox/issues",
     "shortDescription":"This module will convert a ColdSpring XML to WireBox DSL",
     "type":"commandbox-modules",
-    "keywords": [],
+    "keywords":[],
     "license":[
         {
             "type":"Apache2",
             "url":"http://www.apache.org/licenses/LICENSE-2.0"
         }
     ],
-    "contributors":[
-    ],
-	"devDependencies":{
-		"commandbox-cfformat":"*",
+    "contributors":[],
+    "devDependencies":{
+        "commandbox-cfformat":"*",
         "commandbox-docbox":"*"
     },
-    "dependencies":{
-    },
-    "installPaths":{
-    },
-	"ignore":[
+    "dependencies":{},
+    "installPaths":{},
+    "ignore":[
         "**/.*",
         "test-harness",
-		"tests",
-		"/server*.json"
+        "tests",
+        "/server*.json"
     ],
     "scripts":{
-		"build:docs":"task run taskFile=build/Build.cfc target=docs :projectName=`package show slug` :version=`package show version`",
-		"build:module":"task run taskFile=build/Build.cfc :projectName=`package show slug` :version=`package show version`",
-		"runTests" : "task run taskFile=build/Build.cfc target=runTests :projectName=`package show slug` :version=`package show version`",
-		"setupTemplate": "task run taskFile=build/SetupTemplate.cfc",
+        "build:docs":"task run taskFile=build/Build.cfc target=docs :projectName=`package show slug` :version=`package show version`",
+        "build:module":"task run taskFile=build/Build.cfc :projectName=`package show slug` :version=`package show version`",
+        "runTests":"task run taskFile=build/Build.cfc target=runTests :projectName=`package show slug` :version=`package show version`",
+        "setupTemplate":"task run taskFile=build/SetupTemplate.cfc",
         "format:check":"cfformat check commands,models,build,ModuleConfig.cfc",
         "format:watch":"cfformat watch commands,models,build,ModuleConfig.cfc",
         "format":"cfformat run commands,models,build,ModuleConfig.cfc --overwrite",
