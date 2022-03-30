@@ -1,6 +1,6 @@
 {
     "name":"CommandBox ColdSpring XML to WireBox DSL",
-    "version":"1.1.0",
+    "version":"1.2.0",
     "location":"https://downloads.ortussolutions.com/ortussolutions/commandbox-modules/commandbox-coldspring-to-wirebox/@build.version@/commandbox-coldspring-to-wirebox-@build.version@.zip",
     "slug":"commandbox-coldspring-to-wirebox",
     "author":"Ortus Solutions, Corp",
