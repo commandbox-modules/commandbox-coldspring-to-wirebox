@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<beans default-autowire="no">
+	<bean id="TestConfig" class="Test.common.config.ValidationConfig" singleton="true">
+		<constructor-arg name="rules">
+			<map>
+				<entry key="notempty">
+					<map>
+						<entry key="minoccurs">
+							<value>1</value>
+						</entry>
+						<entry key="maxoccurs">
+							<value>*</value>
+						</entry>
+						<entry key="regex">
+							<value>
+								<![CDATA[\w]]>
+							</value>
+						</entry>
+						<entry key="message">
+							<value>You can't validate an empty config.</value>
+						</entry>
+					</map>
+				</entry>
+				<entry key="illegalchars">
+					<map>
+						<entry key="minoccurs">
+							<value>0</value>
+						</entry>
+						<entry key="maxoccurs">
+							<value>0</value>
+						</entry>
+						<entry key="regex">
+							<value>
+								<![CDATA[[^a-zA-Z_0-9-'\+~\.@]]]>
+							</value>
+						</entry>
+						<entry key="message">
+							<value>
+								<![CDATA[Valid characters are: letters (A-Z, either case), numbers (1-9),
+hyphen (-), underscore (_), tilde (~), plus (+), backslash (\) and apostrophe
+(').]]>
+							</value>
+						</entry>
+					</map>
+				</entry>
+			</map>
+		</constructor-arg>
+		<constructor-arg name="delimiter">
+			<!-- the value given here is a single literal tab, which actually works as the
+argument value -->
+			<value></value>
+		</constructor-arg>
+	</bean>
+
+	<!-- create a proxy to point to the actual target -->
+	<bean id="Test" class="coldspring.aop.framework.ProxyFactoryBean">
+		<property name="target">
+			<ref bean="Test1" />
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>sample</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="TextEditor" class="test.common.Testeditor.editor" singleton="true" autowire="no">
+		<property name="Toolbar">
+			<value>Default</value>
+		</property>
+	</bean>
+</beans>
