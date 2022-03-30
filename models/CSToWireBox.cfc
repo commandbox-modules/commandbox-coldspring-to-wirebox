@@ -66,21 +66,80 @@ component singleton {
 				// constructor dependencies
 				for ( j = 1; j lte arrayLen( beans[ x ].constructorProperties ); j++ ) {
 					buf.append( "#cr##tab#.initArg( name=""#beans[ x ].constructorProperties[ j ].name#""" );
+					// If it's a reference, seed the reference
 					if ( len( beans[ x ].constructorProperties[ j ].ref ) ) {
 						buf.append( ", ref=""#beans[ x ].constructorProperties[ j ].ref#""" );
-					} else {
+					}
+					// If it's a simple value, then pass it
+					else if( isSimpleValue( beans[ x ].constructorProperties[ j ].value ) ) {
 						buf.append( ", value=""#beans[ x ].constructorProperties[ j ].value#""" );
 					}
-					buf.append( ")" );
+					// Struct
+					else if( isStruct( beans[ x ].constructorProperties[ j ].value ) ){
+						buf.append( ", value={" );
+							var mapCount = 0;
+							for( var thisKey in beans[ x ].constructorProperties[ j ].value ){
+								mapCount++;
+								buf.append( "#cr##tab##thisKey# : ""#trim( beans[ x ].constructorProperties[ j ].value[ thisKey ] )#""" );
+								if( mapCount < structCount( beans[ x ].constructorProperties[ j ].value ) ){
+									buf.append( "," );
+								}
+							}
+						buf.append("#cr#} ");
+					}
+					// Arrays
+					else if( isArray( beans[ x ].constructorProperties[ j ].value ) ){
+						buf.append( ", value=[" );
+							var arrayCount = 0;
+							for( var thisEntry in beans[ x ].constructorProperties[ j ].value ){
+								arrayCount++;
+								buf.append( "#cr##tab#""#trim( thisEntry )#""" );
+								if( arrayCount < arrayLen( beans[ x ].constructorProperties[ j ].value ) ){
+									buf.append( "," );
+								}
+							}
+						buf.append("#cr#] ");
+					}
+					buf.append( " )" );
 				}
 				// setter dependencies
 				for ( var j = 1; j lte arrayLen( beans[ x ].setterProperties ); j++ ) {
 					buf.append( "#cr##tab#.setter( name=""#beans[ x ].setterProperties[ j ].name#""" );
+
+					// Bean Reference
 					if ( len( beans[ x ].setterProperties[ j ].ref ) ) {
 						buf.append( ", ref=""#beans[ x ].setterProperties[ j ].ref#""" );
-					} else {
+					// If it's a simple value, then pass it
+					} else if( isSimpleValue( beans[ x ].setterProperties[ j ].value ) ) {
 						buf.append( ", value=""#beans[ x ].setterProperties[ j ].value#""" );
+					// Struct
+					} else if( isStruct( beans[ x ].setterProperties[ j ].value ) ){
+						buf.append( ", value={" );
+							var mapCount = 0;
+							for( var thisKey in beans[ x ].setterProperties[ j ].value ){
+								mapCount++;
+								buf.append( "#cr##tab##thisKey# : ""#trim( beans[ x ].setterProperties[ j ].value[ thisKey ] )#""" );
+								if( mapCount < structCount( beans[ x ].setterProperties[ j ].value ) ){
+									buf.append( "," );
+								}
+							}
+						buf.append("#cr#} ");
 					}
+					// Arrays
+					else if( isArray( beans[ x ].setterProperties[ j ].value ) ){
+						buf.append( ", value=[" );
+							var arrayCount = 0;
+							for( var thisEntry in beans[ x ].setterProperties[ j ].value ){
+								arrayCount++;
+								buf.append( "#cr##tab#""#trim( thisEntry )#""" );
+								if( arrayCount < arrayLen( beans[ x ].setterProperties[ j ].value ) ){
+									buf.append( "," );
+								}
+							}
+						buf.append("#cr#] ");
+					}
+
+
 					buf.append( ")" );
 				}
 			}
@@ -224,7 +283,6 @@ component singleton {
 		required childTagName,
 		required beanData
 	){
-		var entries = "";
 		var data    = [];
 
 		// find all constructor properties and dependencies
@@ -232,6 +290,7 @@ component singleton {
 			arguments.bean,
 			arguments.childTagName
 		);
+
 		// Loop Over Children
 		for ( var i = 1; i lte arrayLen( children ); i++ ) {
 			data[ i ] = {
@@ -247,7 +306,7 @@ component singleton {
 
 			// Map
 			if ( structKeyExists( children[ i ], "map" ) ) {
-				entries = xmlSearch(
+				var entries = xmlSearch(
 					xmlParse( toString( children[ i ] ) ),
 					"//map/entry"
 				);
@@ -258,6 +317,20 @@ component singleton {
 					}
 				}
 				data[ i ].value = hashMap;
+			};
+
+			// Lists
+			if ( structKeyExists( children[ i ], "list" ) ) {
+				var entries = xmlSearch(
+					xmlParse( toString( children[ i ] ) ),
+					"//list/value"
+				);
+				var newArray = [];
+				for ( var j = 1; j lte arrayLen( entries ); j++ ) {
+					newArray.append( entries[ j ].XMLText.trim() );
+				}
+				data[ i ].value = newArray;
+				writeDump( var=newArray, output='console' );
 			};
 
 			// child element "ref"
